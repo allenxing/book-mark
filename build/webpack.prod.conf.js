@@ -23,7 +23,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     })
   },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
-  watch:true,
+  watch:true,//监听文件变化，自动打包
   output: {
     path: config.build.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
@@ -158,14 +158,10 @@ function getEntry(globPath) {
   globPath.forEach((itemPath) => {
     glob.sync(itemPath).forEach(function (entry) {
       basename = path.basename(entry, path.extname(entry));
-      console.log(basename);
       if (entry.split('/').length > 4) {
-        console.log(entry)
         tmp = entry.split('/').splice(-3);
-        console.log(tmp)
         // pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
         pathname = basename;
-        console.log(pathname);
         entries[pathname] = entry;
       } else {
         entries[basename] = entry;
@@ -186,12 +182,12 @@ for (var pathname in pages) {
     // necessary to consistently work with multiple chunks via CommonsChunkPlugin
     chunksSortMode: 'dependency'
   };
-
+  // console.log(webpackConfig.entry);
   if (pathname in webpackConfig.entry) {
-    conf.chunks = ['manifest', 'vendor', pathname];
+    conf.chunks = ['manifest','vendor',pathname];
     conf.hash = true;
   }
-
+  // console.log(conf);
   webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
 }
 module.exports = webpackConfig

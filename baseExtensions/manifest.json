@@ -1,8 +1,15 @@
 {
-  "name": "Getting Started Example",
+  "name": "Book-Mark",
   "version": "1.0",
-  "description": "Build an Extension!",
-  "permissions": ["activeTab", "declarativeContent", "storage"],
+  "description": "book-mark by gist!",
+  "permissions": [
+              "activeTab", 
+              "declarativeContent", 
+              "storage",
+              "contextMenus",
+              "tabs",
+              "https://api.github.com/"
+            ],
   "options_page": "options.html",
   "background": {
     "scripts": ["background.js"],
@@ -23,5 +30,12 @@
     "48": "images/get_started48.png",
     "128": "images/get_started128.png"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "manifest_version": 2
 }

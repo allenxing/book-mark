@@ -14,7 +14,7 @@ npm run build
 ```
 ## 目录
 ```
-├─baseExtensions    
+├─baseExtensions    //基础的插件目录，npm run build之后会复制到dist中
 │  ├─images
 |  ├─background.js
 |  ├─manifest.json  
@@ -36,6 +36,14 @@ npm run build
 |      |    ├─popup.js        
 └─static            
 ```
+## 配置文件
+manifest.json
+
+```
+"content_security_policy": "script-src 'self' 'unsafe-eval' ; object-src 'self'"
+vue需要使用eval和new Function()
+```
+[CSP详细说明](https://developer.chrome.com/extensions/contentSecurityPolicy)
 
 ## vue-cli
 
@@ -74,9 +82,7 @@ function getEntry(globPath) {
       basename = path.basename(entry, path.extname(entry));
       console.log(basename);
       if (entry.split('/').length > 4) {
-        console.log(entry)
         tmp = entry.split('/').splice(-3);
-        console.log(tmp)
         // pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
         pathname = basename;
         console.log(pathname);
@@ -137,7 +143,7 @@ function getEntry(globPath) {
     basename = path.basename(entry, path.extname(entry));
     tmp = entry.split('/').splice(-3);
     pathname = tmp.splice(0, 1) + '/' + basename; 
-    entries[pathname] = entry;
+    entries[basename] = entry;
   });
 
   return entries;
